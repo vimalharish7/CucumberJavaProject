@@ -45,6 +45,8 @@ public class contactPage {
 	public WebElement successMessageAlert;
 	@FindBy(id = "telephone-err")
 	public WebElement telephoneError;
+	@FindBy(xpath = "//div[contains(@class, 'alert-error')]")
+	public WebElement errorAlert;
 	
 	public contactPage(WebDriver driver) {
 		this.driver = driver;
@@ -54,10 +56,6 @@ public class contactPage {
 	
 	public void enterName() {
 		forenameField.sendKeys("Hello");
-	}
-	
-	public void assertObjectisDisplayed(String actual, String expected) {
-		Assert.assertEquals(actual, expected);
 	}
 	
 	public void enterInvalidValues() {

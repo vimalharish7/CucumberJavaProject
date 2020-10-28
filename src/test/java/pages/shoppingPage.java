@@ -33,12 +33,8 @@ public class shoppingPage {
 	}
 	
 	public void clickOnProduct(String item) throws InterruptedException {
-		this.driver.findElement(By.xpath("//li[contains(@id, 'product-')]//h4[contains(text(), 'Funny Cow')]//following::p//a[contains(@ng-click, 'add(item)')]")).click();
-		Thread.sleep(1000);
-		this.driver.findElement(By.xpath("//li[contains(@id, 'product-')]//h4[contains(text(), 'Funny Cow')]//following::p//a[contains(@ng-click, 'add(item)')]")).click();
-		Thread.sleep(1000);
-		this.driver.findElement(By.xpath("//li[contains(@id, 'product-')]//h4[contains(text(),'Fluffy Bunny')]//following::p//a[contains(@ng-click, 'add(item)')]")).click();
-		Thread.sleep(1000);
+		this.driver.findElement(By.xpath("//li[contains(@id, 'product-')]//h4[contains(text(), '" + item + "')]//following::p//a[contains(@ng-click, 'add(item)')]")).click();
+		Thread.sleep(2000);
 		
 	}
 

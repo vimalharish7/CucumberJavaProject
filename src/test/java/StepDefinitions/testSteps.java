@@ -19,6 +19,7 @@ public class testSteps {
 	contactPage contactPage;
 	shoppingPage shoppingPage;
 	WebDriverWait wait;
+	String tempValue;
 	
 	@Before
 	public void launchWebsite() {
@@ -42,7 +43,7 @@ public class testSteps {
 	@When("the user click on submit button without entering details")
 	public void the_user_click_on_submit_button_without_entering_details() throws InterruptedException {
 		contactPage.submitButton.click();
-		Thread.sleep(2000);
+		Thread.sleep(4000);
 		
 	}
 
@@ -50,83 +51,90 @@ public class testSteps {
 	public void the_error_messages_are_displayed() {
 		
 		contactPage.forenameError.isDisplayed();
-		contactPage.assertObjectisDisplayed(contactPage.forenameError.getText(), "Forename is required");
 		contactPage.emailError.isDisplayed();
-		contactPage.assertObjectisDisplayed(contactPage.emailError.getText(), "Email is required");
 		contactPage.messageBoxError.isDisplayed();
-		contactPage.assertObjectisDisplayed(contactPage.messageBoxError.getText(), "Message is required");
+		
+		Assert.assertEquals(contactPage.forenameError.getText(), "Forename is required");
+		Assert.assertEquals(contactPage.emailError.getText(), "Email is required");
+		Assert.assertEquals(contactPage.messageBoxError.getText(), "Message is required");
 	
 		String errorColor = "#b94a48";
 		String actualforenameError = contactPage.forenameError.getCssValue("color");
 		String actualEmailError = contactPage.emailError.getCssValue("color");
 		String actualMessageBoxError = contactPage.messageBoxError.getCssValue("color");
-		contactPage.assertObjectisDisplayed(Color.fromString(actualforenameError).asHex(), errorColor);
-		contactPage.assertObjectisDisplayed(Color.fromString(actualEmailError).asHex(), errorColor);
-		contactPage.assertObjectisDisplayed(Color.fromString(actualMessageBoxError).asHex(), errorColor);
+		Assert.assertEquals(Color.fromString(actualforenameError).asHex(), errorColor);
+		Assert.assertEquals(Color.fromString(actualEmailError).asHex(), errorColor);
+		Assert.assertEquals(Color.fromString(actualMessageBoxError).asHex(), errorColor);
 		
 		String actualforenameBGColor = contactPage.forenameField.getCssValue("border-color");
 		String actualEmailBGColor = contactPage.emailField.getCssValue("border-color");
 		String actualMessageBoxBGColor = contactPage.messageField.getCssValue("border-color");
-		contactPage.assertObjectisDisplayed(Color.fromString(actualforenameBGColor).asHex(), "#e9322d");
-		contactPage.assertObjectisDisplayed(Color.fromString(actualEmailBGColor).asHex(), errorColor);
-		contactPage.assertObjectisDisplayed(Color.fromString(actualMessageBoxBGColor).asHex(), errorColor);
+		Assert.assertEquals(Color.fromString(actualforenameBGColor).asHex(), "#e9322d");
+		Assert.assertEquals(Color.fromString(actualEmailBGColor).asHex(), errorColor);
+		Assert.assertEquals(Color.fromString(actualMessageBoxBGColor).asHex(), errorColor);
 		
 		String actualForeameLabelError = contactPage.forenameLabel.getCssValue("color");
 		String actualEmailLabelError = contactPage.emailLabel.getCssValue("color");
 		String actualMessageLabelError = contactPage.messageLabel.getCssValue("color");
-		contactPage.assertObjectisDisplayed(Color.fromString(actualForeameLabelError).asHex(), errorColor);
-		contactPage.assertObjectisDisplayed(Color.fromString(actualEmailLabelError).asHex(), errorColor);
-		contactPage.assertObjectisDisplayed(Color.fromString(actualMessageLabelError).asHex(), errorColor);
+		Assert.assertEquals(Color.fromString(actualForeameLabelError).asHex(), errorColor);
+		Assert.assertEquals(Color.fromString(actualEmailLabelError).asHex(), errorColor);
+		Assert.assertEquals(Color.fromString(actualMessageLabelError).asHex(), errorColor);
+
+		Assert.assertEquals(contactPage.errorAlert.getText(), "We welcome your feedback - but we won't get it unless you complete the form correctly.");
+		String alertError = contactPage.errorAlert.getCssValue("color");
+		Assert.assertEquals(Color.fromString(alertError).asHex(), errorColor);
 	}
 
 	@When("the user enters the mandatory fields")
 	public void the_user_enters_the_mandatory_fields() throws InterruptedException {
 		contactPage.enterRequiredFields();
-		Thread.sleep(2000);
+		tempValue = contactPage.forenameField.getAttribute("value");
+		Thread.sleep(3000);
 	
 	}
 
 	@Then("the error messages should not be displayed")
 	public void the_error_messages_should_not_be_displayed() {
-		//Boolean forename = contactPage.forenameError.isDisplayed();
-		//Boolean email = contactPage.emailError.isDisplayed();
-		//Boolean message = contactPage.messageBoxError.isDisplayed();
-		//Assert.assertFalse("Forename Error not Displayed", forename);
-		//Assert.assertFalse("Email Error not Displayed", email);
-		//Assert.assertFalse("Message Error not Displayed", message);
+
+		try {
+			Assert.assertFalse("Forename Error is Displayed", contactPage.forenameError.isDisplayed());
+			Assert.assertFalse("Email Error is Displayed", contactPage.emailError.isDisplayed());
+			Assert.assertFalse("Message Error is Displayed", contactPage.messageBoxError.isDisplayed());
+		}catch(Exception e) {
+			System.out.println("Element not displayed!");
+		}
 		
 		String expectedColor = "#333333";
 		String actualForeameLabel = contactPage.forenameLabel.getCssValue("color");
 		String actualEmailLabel = contactPage.emailLabel.getCssValue("color");
 		String actualMessageLabel = contactPage.messageLabel.getCssValue("color");
-		contactPage.assertObjectisDisplayed(Color.fromString(actualForeameLabel).asHex(), expectedColor);
-		contactPage.assertObjectisDisplayed(Color.fromString(actualEmailLabel).asHex(), expectedColor);
-		contactPage.assertObjectisDisplayed(Color.fromString(actualMessageLabel).asHex(), expectedColor);
+		Assert.assertEquals(Color.fromString(actualForeameLabel).asHex(), expectedColor);
+		Assert.assertEquals(Color.fromString(actualEmailLabel).asHex(), expectedColor);
+		Assert.assertEquals(Color.fromString(actualMessageLabel).asHex(), expectedColor);
 	}
 
 	@When("click on the submit button")
 	public void click_on_the_submit_button() throws InterruptedException {
 		contactPage.submitButton.click();
-		wait.until(ExpectedConditions.visibilityOf(contactPage.successMessageAlert));
-		
-		
+		wait.until(ExpectedConditions.visibilityOf(contactPage.successMessageAlert));	
 	}
 
 	@Then("the success message is displayed to the user")
-	public void the_success_message_is_displayed_to_the_user() {
+	public void the_success_message_is_displayed_to_the_user() throws InterruptedException {
 		
+		Thread.sleep(3000);
 		contactPage.successMessageAlert.isDisplayed();
 		String successColor = "#468847";
 		String actualColor = contactPage.successMessageAlert.getCssValue("color");
-		contactPage.assertObjectisDisplayed(Color.fromString(actualColor).asHex(), successColor);
-		String tempVal = contactPage.successMessageAlert.getText();
-		System.out.println("Hello! Print Here: " + tempVal);
+		Assert.assertEquals(Color.fromString(actualColor).asHex(), successColor);
+		
+		Assert.assertEquals(contactPage.successMessageAlert.getText(), "Thanks "+ tempValue + ", we appreciate your feedback.");
 	}
 
 	@When("the user enters invalid data on input fields")
 	public void the_user_enters_invalid_data_on_input_fields() throws InterruptedException {
 		contactPage.enterInvalidValues();
-		Thread.sleep(2000);
+		Thread.sleep(3000);
 		
 	}
 
@@ -134,9 +142,15 @@ public class testSteps {
 	public void the_error_messsages_are_displayed_to_the_user() {
 		
 		contactPage.emailError.isDisplayed();
-		contactPage.assertObjectisDisplayed(contactPage.emailError.getText(), "Please enter a valid email");
+		Assert.assertEquals(contactPage.emailError.getText(), "Please enter a valid email");
 		contactPage.telephoneError.isDisplayed();
-		contactPage.assertObjectisDisplayed(contactPage.telephoneError.getText(), "Please enter a valid telephone number");
+		Assert.assertEquals(contactPage.telephoneError.getText(), "Please enter a valid telephone number");
+		
+		String errorColor = "#b94a48";
+		String actualEmailError = contactPage.emailError.getCssValue("color");
+		Assert.assertEquals(Color.fromString(actualEmailError).asHex(), errorColor);
+		String actualTelephoneError = contactPage.telephoneError.getCssValue("color");
+		Assert.assertEquals(Color.fromString(actualTelephoneError).asHex(), errorColor);
 		
 	}
 
@@ -153,16 +167,15 @@ public class testSteps {
 	@When("the user adds {string} item multiple times to cart")
 	public void the_user_adds_item_multiple_times_to_cart(String item) throws InterruptedException {
 		shoppingPage.clickOnProduct(item);
-	}
-
-	@Then("verify the number of items on cart")
-	public void verify_the_number_of_items_on_cart() {
-		System.out.println("Hello world");
+		Assert.assertEquals(shoppingPage.cartLink.getText(), "Cart (1)");
+		shoppingPage.clickOnProduct(item);
+		Assert.assertEquals(shoppingPage.cartLink.getText(), "Cart (2)");
 	}
 
 	@When("the user adds {string} item to cart")
-	public void the_user_adds_item_to_cart(String string) {
-		System.out.println("Hello world");
+	public void the_user_adds_item_to_cart(String item) throws InterruptedException {
+		shoppingPage.clickOnProduct(item);
+		Assert.assertEquals(shoppingPage.cartLink.getText(), "Cart (3)");
 	}
 
 	@When("the user clicks on cart menu")
@@ -172,7 +185,9 @@ public class testSteps {
 	}
 
 	@Then("the items are present in the shopping cart")
-	public void the_items_are_present_in_the_shopping_cart() {
+	public void the_items_are_present_in_the_shopping_cart() throws InterruptedException {
+		
+		Thread.sleep(3000);
 		String cartMsg = shoppingPage.nonEmptyCartMessage.getText();
 		Assert.assertEquals(shoppingPage.cartLink.getText(), "Cart (3)");
 		Assert.assertEquals(cartMsg, "There are 3 items in your cart, you can Checkout or carry on Shopping.");

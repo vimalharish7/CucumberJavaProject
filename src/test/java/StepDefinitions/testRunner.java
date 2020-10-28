@@ -7,7 +7,8 @@ import io.cucumber.junit.CucumberOptions;
 @RunWith(Cucumber.class)
 @CucumberOptions(features = "src/test/resources/Features/planit.feature", glue = {"StepDefinitions"}, 
 monochrome = true,
-plugin = {"pretty","html:target/Reports/report.html"})
+plugin = {"pretty","html:target/Reports/report.html"},
+tags = "@AllTestCases")
 public class testRunner {
 
 }
