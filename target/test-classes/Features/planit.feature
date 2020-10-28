@@ -25,7 +25,7 @@ Feature: Planit Technical Assessment
     When the user enters invalid data on inout fields
     Then the error messsages are displayed to the user
 
-  @TestCase3
+  @TestCase4
   Scenario: Validate the shopping cart page
     Given the user launch the homepage url and navigate to shop page
     When the user adds "Funny Cow" item multiple times to cart
@@ -33,4 +33,4 @@ Feature: Planit Technical Assessment
     When the user adds "Funny Bunny" item to cart
     Then verify the number of items on cart
     When the user clicks on cart menu
-    Then the items are present in the shopping cart   
+    Then the items are present in the shopping cart
