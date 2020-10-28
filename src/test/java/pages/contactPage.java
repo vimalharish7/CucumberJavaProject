@@ -1,6 +1,5 @@
 package pages;
 
-import org.junit.Assert;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -54,10 +53,9 @@ public class contactPage {
 		wait = new WebDriverWait(driver,30);
 	}
 	
-	public void enterName() {
-		forenameField.sendKeys("Hello");
-	}
-	
+	/*Function : To enter mandatory fields
+	 * Argument: None
+	 */
 	public void enterInvalidValues() {
 		this.emailField.clear();
 		this.emailField.sendKeys("check");
@@ -66,6 +64,9 @@ public class contactPage {
 		this.messageField.sendKeys(Keys.TAB);
 	}
 	
+	/*Function : To pass invalid entries
+	 * Argument: None
+	 */
 	public void enterRequiredFields() {
 		this.forenameField.clear();
 		this.forenameField.sendKeys("Harry");

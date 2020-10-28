@@ -1,9 +1,7 @@
 package pages;
 
 
-import org.junit.Assert;
 import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -32,6 +30,9 @@ public class shoppingPage {
 		wait = new WebDriverWait(driver,30);
 	}
 	
+	/*Function : To click on any product
+	 * Argument: Pass the Product Name as an argument
+	 */
 	public void clickOnProduct(String item) throws InterruptedException {
 		this.driver.findElement(By.xpath("//li[contains(@id, 'product-')]//h4[contains(text(), '" + item + "')]//following::p//a[contains(@ng-click, 'add(item)')]")).click();
 		Thread.sleep(2000);
